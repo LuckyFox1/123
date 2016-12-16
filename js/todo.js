@@ -1,13 +1,11 @@
-
 var todo = [];
-var storage = window.localStorage || null;
+var storage = window.localStorage;
 
 $(document).ready(function() {
 	saveToLS();
 	render();
 
 	$('#title').keypress(function(e) {
-		console.log(e.which);
 		if(e.which == 13) {
 			insertNewItem($('#title').val());
 			$('#title').val('');
@@ -15,46 +13,43 @@ $(document).ready(function() {
 	});
 });
 
-
-    $('#todo-body').sortable({
-    	update: function() {
-            var elements = $('#todo-body').find('tr');
-			console.log(elements);
-			for (var i = 0; i < elements.length; i++) {
-    			todo[i].checked = elements[i + ""].childNodes["0"].childNodes["0"].checked;
-    			todo[i].title = elements[i + ""].childNodes["1"].childNodes["0"].firstChild.textContent;
-			}
-			saveToLS();
-			render();
-		},
-        cursor: "default",
-		start: function ( ) {
-			$('.ui-sortable-helper td:last-child').addClass("right-align");
-        }
-    });
-    $('#todo-body').disableSelection();
+$('#todo-body').sortable({
+	update: function() {
+		var elements = $('#todo-body').find('tr');
+		for (var i = 0; i < elements.length; i++) {
+			todo[i].checked = elements[i + ""].childNodes["0"].childNodes["0"].checked;
+			todo[i].title = elements[i + ""].childNodes["1"].childNodes["0"].firstChild.textContent;
+		}
+		saveToLS();
+		render();
+	},
+	cursor: "default",
+	start: function ( ) {
+		$('.ui-sortable-helper td:last-child').addClass("right-align");
+	}
+});
+$('#todo-body').disableSelection();
 
 function saveToLS() {
-	storage.setItem('todo', JSON.stringify(todo));
+	storage.setItem("todo", JSON.stringify(todo));
 }
 
 function loadFromLS() {
-    todo = JSON.parse(storage.getItem('todo'));
+    todo = JSON.parse(storage.getItem("todo"));
 }
 
-//просто готовим значения каждого из пунктов списка
 function prepareItem(id, title, checked) {
 	var checkClass = "";
 	var titleStyled = "";
 
 	if(checked) {
-		checkClass = "checked='checked'";
+		checkClass = 'checked="checked"';
 		titleStyled = "<s>" + title + "</s>"
 	} else {
 		titleStyled = title;
 	}
 
-	var html = '';
+	var html = "";
 	html += '<tr>';
 		html += '<td class="left-align" style="width: 50px;">';
 			html += '<input type="checkbox" name="completed" onClick="modifyItem(' + id + ', 0)"'
@@ -63,8 +58,8 @@ function prepareItem(id, title, checked) {
 		html += '</td>';
 		html += '<td><p>' + titleStyled + '</p></td>';
 		html += '<td class="right-align"><a class="btn-floating btn-small waves-effect waves-light edit" onClick="modifyItem('
-			+ id + ', 1)"><i class="material-icons">edit</i></a> <a class="btn-floating btn-small waves-effect waves-light delete"onClick="modifyItem('
-			+ id + ', 2)"><i class="material-icons">delete</i></a></td>';
+			+ id + ', 1)"><i class="material-icons"> edit </i></a> <a class="btn-floating btn-small waves-effect waves-light delete"onClick="modifyItem('
+			+ id + ', 2)"><i class="material-icons"> delete </i></a></td>';
 	html += '</tr>';
 
 	return html;
@@ -100,11 +95,10 @@ function modifyItem(id, action) {
 }
 
 function insertNewItem(title) {
-	todo.push({ title: title, checked:false });
+	todo.push({ title: title, checked: false });
     saveToLS();
 	render();
 }
-
 
 function removeAll() {
 	todo = [];
@@ -112,6 +106,6 @@ function removeAll() {
 	render();
 }
 
-if(JSON.parse(storage.getItem('todo')).length != 0) {
+if(JSON.parse(storage.getItem("todo")).length != 0) {
     loadFromLS();
 }
