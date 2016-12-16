@@ -1,0 +1,4 @@
+.ui-sortable-helper td{
+    opacity: 0.7;
+    width: inherit;
+}
