@@ -4,8 +4,15 @@
   "description": "GeekHub",
   "main": "index.js",
   "dependencies": {
+    "body-parser": "^1.16.0",
+    "express": "^4.14.1",
+    "jade": "^1.11.0",
     "jquery": "^3.1.1",
-    "materialize-css": "^0.97.8"
+    "jquery-ui": "^1.12.1",
+    "jquery-ui-dist": "^1.12.1",
+    "materialize-css": "^0.97.8",
+    "mongodb": "^2.2.22",
+    "mongoose": "^4.8.1"
   },
   "devDependencies": {},
   "scripts": {
